@@ -26,42 +26,20 @@ public class MultiplayerMainPlayer : MonoBehaviour
 		return _multiplayerPlayer.GetDataAsDict();
 	}
 
-	public JSONObject GetDataAsJSON()
+	public string GetDataAsJSON()
 	{
-		Dictionary<string, string> dict = GetDataAsDict();
-		JSONObject json = JSONObject.Create(dict);
+		var t = transform;
+		
+		SocketConnection.PlayerData playerData = new SocketConnection.PlayerData(
+			_multiplayerPlayer.Data.name,
+			_multiplayerPlayer.Data.color,
+			_multiplayerPlayer.Data.socketId,
+			t.position,
+			t.localScale,
+			t.rotation,
+			_playerMovement.Facing
+		);
 
-		Vector3 position = transform.position;
-		Dictionary<string, string> positionDict = new Dictionary<string, string>()
-		{
-			{"x", position.x.ToString()},
-			{"y", position.y.ToString()},
-			{"z", position.z.ToString()}
-		};
-
-		Vector3 scale = transform.localScale;
-		Dictionary<string, string> scaleDict = new Dictionary<string, string>()
-		{
-			{"x", scale.x.ToString()},
-			{"y", scale.y.ToString()},
-			{"z", scale.z.ToString()}
-		};
-
-		Quaternion rotation = transform.rotation;
-		Dictionary<string, string> rotationDict = new Dictionary<string, string>()
-		{
-			{"x", rotation.x.ToString()},
-			{"y", rotation.y.ToString()},
-			{"z", rotation.z.ToString()},
-			{"w", rotation.w.ToString()}
-		};
-
-		json["position"] = JSONObject.Create(positionDict);
-		json["scale"] = JSONObject.Create(scaleDict);
-		json["rotation"] = JSONObject.Create(rotationDict);
-
-		json["facing"] = JSONObject.CreateStringObject(_playerMovement.Facing.ToString());
-
-		return json;
+		return JsonUtility.ToJson(playerData);
 	}
 }

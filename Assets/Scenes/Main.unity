@@ -784,7 +784,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 1241372482}
-  - component: {fileID: 1241372486}
+  - component: {fileID: 1241372481}
   - component: {fileID: 1241372485}
   - component: {fileID: 1241372484}
   m_Layer: 0
@@ -794,6 +794,19 @@ GameObject:
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
+--- !u!114 &1241372481
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1241372480}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: b622d61d11750490bb9242d324724cf1, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  autoconnect: 1
 --- !u!4 &1241372482
 Transform:
   m_ObjectHideFlags: 0
@@ -836,24 +849,6 @@ MonoBehaviour:
   inputField: {fileID: 516152688}
   soundManager: {fileID: 759554022}
   player: {fileID: 0}
---- !u!114 &1241372486
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1241372480}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 961346d7e16a445ff93777573e78efd6, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  url: ws://jam-sesh-game.herokuapp.com/socket.io/?EIO=4&transport=websocket
-  autoConnect: 1
-  reconnectDelay: 5
-  ackExpirationTime: 1800
-  pingInterval: 25
-  pingTimeout: 60
 --- !u!1 &1246081602
 GameObject:
   m_ObjectHideFlags: 0

@@ -23,7 +23,7 @@ public class SpriteOrientationController : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-	    Debug.Log($"Facing: {_multiplayerPlayer.Data.facing}");
+	    // Debug.Log($"Facing: {_multiplayerPlayer.Data.facing}");
 	    sprite.transform.localScale = Vector3.Scale(_baseScale, new Vector3(_multiplayerPlayer.Data.facing, 1, 1));
     }
 }

@@ -1,14 +1,15 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
+using System.Net.Sockets;
 using System.Reflection;
 using UnityEngine;
 
 public class MultiplayerPlayer : MonoBehaviour
 {
-	private MultiplayerPlayersManager.PlayerData _data;
+	private SocketConnection.PlayerData _data;
 
-	public MultiplayerPlayersManager.PlayerData Data
+	public SocketConnection.PlayerData Data
 	{
 		get => _data;
 		set

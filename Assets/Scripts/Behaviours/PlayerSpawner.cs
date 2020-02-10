@@ -7,7 +7,7 @@ public class PlayerSpawner : MonoBehaviour
 	[SerializeField] private GameObject _playerPrefab;
 	[SerializeField] private GameObject _mainPlayerPrefab;
 
-	public GameObject SpawnPlayer(MultiplayerPlayersManager.PlayerData playerData)
+	public GameObject SpawnPlayer(SocketConnection.PlayerData playerData)
 	{
 		GameObject player = Instantiate(
 			_playerPrefab,
@@ -15,14 +15,14 @@ public class PlayerSpawner : MonoBehaviour
 			Quaternion.identity
 		);
 
-		player.GetComponent<PlayerColorController>().color = playerData.color;
+		player.GetComponent<PlayerColorController>().color = playerData.GetColor();
 		player.GetComponent<PlayerNameController>().Name = playerData.name;
 		player.GetComponent<MultiplayerPlayer>().Data = playerData;
 
 		return player;
 	}
 
-	public GameObject SpawnMainPlayer(MultiplayerPlayersManager.PlayerData playerData)
+	public GameObject SpawnMainPlayer(SocketConnection.PlayerData playerData)
 	{
 		GameObject player = Instantiate(
 			_mainPlayerPrefab,
@@ -30,7 +30,7 @@ public class PlayerSpawner : MonoBehaviour
 			Quaternion.identity
 		);
 
-		player.GetComponent<PlayerColorController>().color = playerData.color;
+		player.GetComponent<PlayerColorController>().color = playerData.GetColor();
 		player.GetComponent<MultiplayerPlayer>().Data = playerData;
 
 		return player;

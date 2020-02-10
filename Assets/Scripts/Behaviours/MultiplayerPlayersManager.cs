@@ -1,48 +1,24 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
 using System.Net.Sockets;
 using JetBrains.Annotations;
-using SocketIO;
 using UnityEngine;
 
 public class MultiplayerPlayersManager : MonoBehaviour
 {
-	[System.Serializable]
-	public class PlayerData
-	{
-		public string id;
-
-		public string name;
-		public Color color;
-
-		public int facing;
-
-		public Vector3 position;
-		public Quaternion rotation;
-		public Vector3 scale;
-
-		public PlayerData(string playerName, Color playerColor, string socketId)
-		{
-			name = playerName;
-			id = socketId;
-			color = playerColor;
-
-			position = Vector3.zero;
-			rotation = Quaternion.identity;
-			scale = Vector3.one;
-		}
-	}
-
 	private List<MultiplayerPlayer> _players = new List<MultiplayerPlayer>();
 
 	private PlayerSpawner _playerSpawner;
 	private SocketConnection _socketConnection;
+	private PlayerDeathDelegate _deathDelegate;
 
-    // Start is called before the first frame update
+	// Start is called before the first frame update
     void Start()
     {
 	    _playerSpawner = GameObject.FindObjectOfType<PlayerSpawner>();
 	    _socketConnection = GetComponent<SocketConnection>();
+	    _deathDelegate = GameObject.FindGameObjectWithTag("DeathBarrier").GetComponent<PlayerDeathDelegate>();
     }
 
     // Update is called once per frame
@@ -51,13 +27,11 @@ public class MultiplayerPlayersManager : MonoBehaviour
 
     }
 
-    public void SpawnPlayer(string name, Color color, string socketId)
+    public void SpawnPlayer(SocketConnection.PlayerData newPlayer)
     {
-	    PlayerData newPlayer = new PlayerData(name, color, socketId);
+	    // Debug.Log($"Socket id: {socketId}; My id: {_socketConnection.id}");
 
-	    Debug.Log($"Socket id: {socketId}; My id: {_socketConnection.id}");
-
-	    if (socketId == _socketConnection.id)
+	    if (newPlayer.socketId == _socketConnection.id)
 		{
 			GameObject playerGameObject = _playerSpawner.SpawnMainPlayer(newPlayer);
 
@@ -67,7 +41,7 @@ public class MultiplayerPlayersManager : MonoBehaviour
 			Camera camera = Camera.main;
 			camera.GetComponent<PlayerCamera>().player = playerGameObject;
 
-			_socketConnection.player = player.GetComponent<MultiplayerMainPlayer>();
+			_socketConnection.Player = player.GetComponent<MultiplayerMainPlayer>();
 		}
 	    else
 	    {
@@ -80,14 +54,17 @@ public class MultiplayerPlayersManager : MonoBehaviour
 
     public void DestroyPlayer(string socketId)
     {
-	    foreach (MultiplayerPlayer player in _players)
-	    {
-		    if (player.Data.id == socketId)
-		    {
-			    Destroy(player.gameObject);
-			    _players.Remove(player);
-		    }
-	    }
+	    int index = _players
+		    .Select((p, i) => new {Player=p, Index=i})
+		    .Where((p) => p.Player.Data.socketId == socketId).ToList()[0].Index;
+
+	    MultiplayerPlayer player = _players[index];
+	    Debug.Log($"Player {player.name} ({socketId}) disconnected");
+	    
+	    _deathDelegate.OnDeath(player.transform.position);
+	    Destroy(player.gameObject);
+	    
+	    _players.RemoveAt(index);
     }
 
     [CanBeNull]
@@ -95,19 +72,19 @@ public class MultiplayerPlayersManager : MonoBehaviour
     {
 	    foreach (MultiplayerPlayer player in _players)
 	    {
-		    if (player.Data.id == id) return player;
+		    if (player.Data.socketId == id) return player;
 	    }
 
 	    return null;
     }
 
-    public void UpdatePlayers(List<PlayerData> playerDatas)
+    public void UpdatePlayers(List<SocketConnection.PlayerData> playerDatas)
     {
-	    foreach (PlayerData data in playerDatas)
+	    foreach (SocketConnection.PlayerData data in playerDatas)
 	    {
-		    if (data.id != _socketConnection.id)
+		    if (data.socketId != _socketConnection.id)
 		    {
-			    MultiplayerPlayer player = GetPlayerById(data.id);
+			    MultiplayerPlayer player = GetPlayerById(data.socketId);
 
 			    if (player != null)
 			    {
@@ -115,7 +92,7 @@ public class MultiplayerPlayersManager : MonoBehaviour
 			    }
 			    else
 			    {
-				    SpawnPlayer(data.name, data.color, data.id);
+				    SpawnPlayer(data);
 			    }
 		    }
 	    }
