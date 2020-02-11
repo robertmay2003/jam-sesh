@@ -96,6 +96,7 @@ LightmapSettings:
     m_PVRFilteringAtrousPositionSigmaAO: 1
     m_ExportTrainingData: 0
     m_TrainingDataDestination: TrainingData
+    m_LightProbeSampleCountMultiplier: 4
   m_LightingDataAsset: {fileID: 0}
   m_UseShadowmask: 1
 --- !u!196 &4
@@ -178,6 +179,7 @@ SpriteRenderer:
   m_MotionVectors: 1
   m_LightProbeUsage: 1
   m_ReflectionProbeUsage: 1
+  m_RayTracingMode: 0
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
@@ -234,11 +236,6 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 0}
     m_Modifications:
-    - target: {fileID: 2417213593670918542, guid: b08777e3ff7824181bfe87df75401191,
-        type: 3}
-      propertyPath: m_Name
-      value: Single SoundManager
-      objectReference: {fileID: 0}
     - target: {fileID: 2417213593670918536, guid: b08777e3ff7824181bfe87df75401191,
         type: 3}
       propertyPath: m_LocalPosition.x
@@ -294,6 +291,11 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 2417213593670918542, guid: b08777e3ff7824181bfe87df75401191,
+        type: 3}
+      propertyPath: m_Name
+      value: Single SoundManager
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: b08777e3ff7824181bfe87df75401191, type: 3}
 --- !u!1001 &8042378938888374151
@@ -303,11 +305,6 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 0}
     m_Modifications:
-    - target: {fileID: 8042378937517115180, guid: 44e177e4e80ad4c5c9d04de28b9b1dda,
-        type: 3}
-      propertyPath: m_Name
-      value: Single Player
-      objectReference: {fileID: 0}
     - target: {fileID: 8042378937517115176, guid: 44e177e4e80ad4c5c9d04de28b9b1dda,
         type: 3}
       propertyPath: m_LocalPosition.x
@@ -363,6 +360,11 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 8042378937517115180, guid: 44e177e4e80ad4c5c9d04de28b9b1dda,
+        type: 3}
+      propertyPath: m_Name
+      value: Single Player
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 44e177e4e80ad4c5c9d04de28b9b1dda, type: 3}
 --- !u!1001 &8172495691841390740
@@ -372,11 +374,6 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 0}
     m_Modifications:
-    - target: {fileID: 8172495692984474319, guid: 9897f1aa18dd242c3a2f80da3fbaeda4,
-        type: 3}
-      propertyPath: m_Name
-      value: Single Main Camera
-      objectReference: {fileID: 0}
     - target: {fileID: 8172495692984474314, guid: 9897f1aa18dd242c3a2f80da3fbaeda4,
         type: 3}
       propertyPath: m_LocalPosition.x
@@ -432,5 +429,29 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 8172495692984474319, guid: 9897f1aa18dd242c3a2f80da3fbaeda4,
+        type: 3}
+      propertyPath: m_Name
+      value: Single Main Camera
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 9897f1aa18dd242c3a2f80da3fbaeda4, type: 3}
+--- !u!1 &8172495691841390741 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 8172495692984474319, guid: 9897f1aa18dd242c3a2f80da3fbaeda4,
+    type: 3}
+  m_PrefabInstance: {fileID: 8172495691841390740}
+  m_PrefabAsset: {fileID: 0}
+--- !u!114 &8172495691841390742
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8172495691841390741}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ff26db721962cdf4a8edcdfa9a767d2a, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  profile: {fileID: 11400000, guid: 86863d3cc94d141169a2114c08ea73e3, type: 2}

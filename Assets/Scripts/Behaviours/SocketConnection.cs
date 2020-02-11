@@ -9,13 +9,13 @@ using UnityEngine.UI;
 public class SocketConnection : MonoBehaviour
 {
 	#region Inspector Variables
-	
+
 	public MultiplayerPlayersManager playerList;
 	public TMP_InputField inputField;
 	public SoundManager soundManager;
-	
+
 	#endregion
-	
+
 	#region Public Properties
 
 	public MultiplayerMainPlayer Player
@@ -23,19 +23,19 @@ public class SocketConnection : MonoBehaviour
 		get => _player;
 		set => _player = value;
 	}
-	
+
 	#endregion
 
 	#region Private Variables
-	
+
 	private MultiplayerMainPlayer _player;
 	private SocketIOUnity _socket;
 	private PlayerDeathDelegate _deathDelegate;
-	
+
 	#endregion
 
 	#region Event Data Types
-	
+
 	public class CustomEventData
 	{
 		public string eventName;
@@ -47,12 +47,12 @@ public class SocketConnection : MonoBehaviour
 			eventData = data;
 		}
 	}
-	
+
 	public class SoundEventData
 	{
 		public float sound;
 		public Vector3 position;
-		
+
 		public SoundEventData(float soundName, Vector3 pos)
 		{
 			sound = soundName;
@@ -93,7 +93,7 @@ public class SocketConnection : MonoBehaviour
 			socketId = id;
 		}
 	}
-	
+
 	[System.Serializable]
 	public class PlayerData
 	{
@@ -102,10 +102,10 @@ public class SocketConnection : MonoBehaviour
 		public string socketId;
 
 		public float facing;
-			
+
 		public Vector3 position;
 		public Vector3 scale;
-			
+
 		public Quaternion rotation;
 
 		public PlayerData
@@ -113,12 +113,12 @@ public class SocketConnection : MonoBehaviour
 			string playerName,
 			string playerColor,
 			string id,
-				
+
 			Vector3 playerPosition,
 			Vector3 playerScale,
-				
+
 			Quaternion playerRotation,
-				
+
 			float facingDirection = 0f
 		)
 		{
@@ -166,7 +166,7 @@ public class SocketConnection : MonoBehaviour
 	{
 		public List<PlayerListEntry> players = new List<PlayerListEntry>();
 	}
-	
+
 	#endregion
 
 	public string id => _socket.id;
@@ -196,7 +196,7 @@ public class SocketConnection : MonoBehaviour
 		JoinEventData data = JsonUtility.FromJson<JoinEventData>(dataString);
 		// Debug.Log("Spawn Mark 2");
 		// Debug.Log($"Spawn Data: {data}");
-		
+
 		// Spawn the new player in the world
 		string name = data.name;
 		string color = data.color;
@@ -208,7 +208,7 @@ public class SocketConnection : MonoBehaviour
 	void DestroyPlayer(string dataString)
 	{
 		LeaveEventData data = JsonUtility.FromJson<LeaveEventData>(dataString);
-		
+
 		// Destroy the player
 		playerList.DestroyPlayer(data.socketId);
 	}
@@ -272,12 +272,12 @@ public class SocketConnection : MonoBehaviour
 	{
 		SoundEventData soundData = new SoundEventData(index, position);
 		CustomEventData data = new CustomEventData("sound", JsonUtility.ToJson(soundData));
-		
+
 		string dataJSON = JsonUtility.ToJson(data);
 
 		// Tell server to play sound
 		_socket.Emit("serverEvent", dataJSON);
-		
+
 		// Tell clients to play particle
 		_socket.Emit("event", dataJSON);
 	}
@@ -286,7 +286,7 @@ public class SocketConnection : MonoBehaviour
 	{
 		DeathEventData deathData = new DeathEventData(position);
 		CustomEventData data = new CustomEventData("death", JsonUtility.ToJson(deathData));
-		
+
 		string dataJSON = JsonUtility.ToJson(data);
 
 		_socket.Emit("event", dataJSON);

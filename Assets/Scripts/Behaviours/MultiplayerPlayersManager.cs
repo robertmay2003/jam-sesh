@@ -59,11 +59,11 @@ public class MultiplayerPlayersManager : MonoBehaviour
 		    .Where((p) => p.Player.Data.socketId == socketId).ToList()[0].Index;
 
 	    MultiplayerPlayer player = _players[index];
-	    Debug.Log($"Player {player.name} ({socketId}) disconnected");
-	    
+	    // Debug.Log($"Player {player.name} ({socketId}) disconnected");
+
 	    _deathDelegate.OnDeath(player.transform.position);
 	    Destroy(player.gameObject);
-	    
+
 	    _players.RemoveAt(index);
     }
 
